@@ -46,7 +46,7 @@ collection_groups:
   - heading: Content
     collections: [pages, posts]
   - heading: Site
-    collections: [settings]
+    collections: [settings, post_options]
 
 collections_config:
   pages:
@@ -142,6 +142,21 @@ collections_config:
             static: ""
             uploads_use_relative_path: true
 
+  post_options:
+    path: data
+    glob:
+      - tags.yaml
+      - categories.yaml
+      - series.yaml
+    name: Tags and categories
+    icon: sell
+    description: The tags, categories and series offered when you edit a post.
+    disable_url: true
+    disable_add: true
+    disable_add_folder: true
+    disable_file_actions: true
+    _enabled_editors: [data]
+
   settings:
     path: config/_default
     glob:
@@ -156,6 +171,14 @@ collections_config:
     disable_add_folder: true
     disable_file_actions: true
     _enabled_editors: [data]
+
+data_config:
+  tags:
+    path: data/tags.yaml
+  categories:
+    path: data/categories.yaml
+  series:
+    path: data/series.yaml
 
 file_config:
   - glob: config/_default/params.yaml
@@ -801,20 +824,22 @@ _inputs:
     comment: Drafts aren't published, so they can't open in the Visual Editor.
   tags:
     type: multiselect
+    comment: Pick from **Site → Tags and categories**. A tag you type here is added to this post only.
     options:
       allow_create: true
-      values: []
+      values: data.tags
   categories:
     type: multiselect
+    comment: Pick from **Site → Tags and categories**. A category you type here is added to this post only.
     options:
       allow_create: true
-      values: []
+      values: data.categories
   series:
     type: multiselect
-    comment: Posts in the same series link to each other.
+    comment: Posts in the same series link to each other. Add new series in **Site → Tags and categories** so every post can pick them.
     options:
       allow_create: true
-      values: []
+      values: data.series
   series_order:
     type: number
     label: Position in series

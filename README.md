@@ -52,6 +52,8 @@ Then open http://localhost:10101. Saves are written to your files. Rebuild with 
 │   ├── params.yaml            Blowfish theme options                 (editable in CloudCannon)
 │   ├── languages.en.yaml      site title, description, author        (editable in CloudCannon)
 │   └── menus.en.yaml          header and footer menus                (editable in CloudCannon)
+├── data/                    tags.yaml, categories.yaml, series.yaml:
+│                              the lists offered in a post's taxonomy fields (editable in CloudCannon)
 ├── content/
 │   ├── _index.md              the home page
 │   ├── about.md               a standalone page

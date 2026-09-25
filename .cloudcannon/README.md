@@ -7,6 +7,7 @@ This site is a blog. You can change everything on it here: the pages, the posts,
 - [Pages](cloudcannon:collections/pages): the home page and standalone pages such as About
 - [Posts](cloudcannon:collections/posts): blog posts
 - [Site settings](cloudcannon:collections/settings): colours, header style, author profile and menus
+- [Tags and categories](cloudcannon:collections/post_options): the tags, categories and series you can pick for a post
 
 ## The home page
 
@@ -50,6 +51,10 @@ Click an inserted component to edit it.
 - **menus.en.yaml** holds the header and footer menus. Each link points to a page (for example `posts` or `about`) or to a web address. Lower **Order** numbers come first.
 
 Changes to settings appear on the site after it rebuilds.
+
+## Tags, categories and series
+
+A post's **Tags**, **Categories** and **Series** fields offer the lists in **Tags and categories**. Add a new one there first, and every post can pick it. You can also type a new one straight into a post, but it's added to that post only and won't show up in the list for other posts.
 
 ## New pages
 
