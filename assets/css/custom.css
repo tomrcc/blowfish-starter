@@ -1,0 +1,6 @@
+/* Loaded automatically by Blowfish after the theme's CSS. */
+
+/* Keep the hero button row tall enough to hold the Visual Editor's "Add" control when it's empty. */
+[data-editable="array"][data-prop="heroButtons"] {
+  min-height: 3rem;
+}

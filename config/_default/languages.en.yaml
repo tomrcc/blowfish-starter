@@ -1,0 +1,23 @@
+disabled: false
+locale: en
+label: English
+weight: 1
+title: Blowfish Starter
+
+params:
+  displayName: EN
+  isoCode: en
+  rtl: false
+  dateFormat: 2 January 2006
+  logo: img/logo.png
+  description: A CloudCannon starter built on the Blowfish Hugo theme.
+  copyright: © 2026 Jamie Placeholder
+  author:
+    name: Jamie Placeholder
+    image: img/author.jpg
+    headline: Writer, tinkerer, placeholder.
+    bio: Jamie writes about building websites. Replace this with a sentence about you.
+    links:
+      - github: https://github.com/
+      - bluesky: https://bsky.app/
+      - email: mailto:hello@example.com

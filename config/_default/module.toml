@@ -1,0 +1,13 @@
+# Blowfish is imported as a Hugo module and vendored into _vendor/.
+# After changing imports or versions, run: hugo mod get -u && hugo mod vendor
+
+[hugoVersion]
+  extended = true
+  min = "0.163.0"
+
+[[imports]]
+  path = "github.com/nunocoracao/blowfish/v3"
+
+# Visual Editor support. Pin a release tag: the renderer is downloaded from the matching GitHub release.
+[[imports]]
+  path = "github.com/CloudCannon/editable-regions"

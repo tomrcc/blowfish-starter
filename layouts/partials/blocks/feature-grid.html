@@ -1,0 +1,24 @@
+{{- /*
+  Page-builder block: a grid of cards with an icon, title, text and optional link.
+  Markup follows Blowfish's `feature-grid` and `feature` shortcodes so it matches the theme.
+  Context (.) is one content_blocks item: { _name, columns, items: [{ icon, title, text, url, label }] }
+*/ -}}
+{{- $columns := .columns | default "3" -}}
+<div class="not-prose my-8 grid gap-4 text-left sm:grid-cols-2 grid-balance {{ if eq $columns "4" }}lg:grid-cols-4 grid-balance-4{{ else }}lg:grid-cols-3 grid-balance-3{{ end }}" data-editable="array" data-prop="items">
+  {{- range .items }}
+    {{- $item := . }}
+    <article class="group rounded-2xl border border-neutral-200/80 bg-white/60 p-6 shadow-sm backdrop-blur-xl transition duration-200 hover:-translate-y-1 hover:border-primary-300 hover:shadow-xl hover:shadow-primary-500/10 dark:border-neutral-800 dark:bg-neutral-900/50 dark:hover:border-primary-700" data-editable="array-item">
+      <span class="mb-5 inline-flex rounded-xl bg-primary-100 p-3 text-primary-600 dark:bg-primary-950 dark:text-primary-400">
+        {{ partial "icon.html" (.icon | default "wand-magic-sparkles") }}
+      </span>
+      <h2 class="text-lg font-bold text-neutral-900 dark:text-white" data-editable="text" data-prop="title">{{ .title }}</h2>
+      <div class="mt-2 text-sm leading-6 text-neutral-600 dark:text-neutral-400" data-editable="text" data-type="text" data-prop="text">{{ .text | markdownify }}</div>
+      {{- with .url }}
+        <a class="mt-5 inline-flex items-center gap-2 text-sm font-bold text-primary-600 hover:text-primary-500 dark:text-primary-400" href="{{ . | safeURL }}">
+          <span data-editable="text" data-prop="label">{{ $item.label | default "Learn more" }}</span>
+          {{ partial "icon.html" "link" }}
+        </a>
+      {{- end }}
+    </article>
+  {{- end }}
+</div>

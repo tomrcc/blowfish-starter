@@ -1,0 +1,21 @@
+{{- /*
+  Override of Blowfish v3.8.0 layouts/partials/icon.html.
+  Adds a fallback for CloudCannon's Visual Editor: its in-browser Hugo has no assets/,
+  so resources.Get finds nothing there. The theme's SVGs are made readable in the editor
+  with params.editable_regions.additional_dirs (config/_default/hugo.toml) and read with readFile.
+  Re-sync with the theme's copy after upgrading Blowfish.
+*/ -}}
+{{- $svg := "" -}}
+{{- with resources.Get (print "icons/" . ".svg") -}}
+  {{- $svg = .Content -}}
+{{- else -}}
+  {{- $path := print "_vendor/github.com/nunocoracao/blowfish/v3/assets/icons/" . ".svg" -}}
+  {{- if fileExists $path -}}
+    {{- $svg = readFile $path -}}
+  {{- end -}}
+{{- end -}}
+{{- with $svg -}}
+  <span class="relative block icon">
+    {{- . | safeHTML -}}
+  </span>
+{{- end -}}

@@ -1,0 +1,1058 @@
+timezone: Etc/UTC
+
+paths:
+  static: assets
+  uploads: assets/img
+
+markdown:
+  engine: commonmark
+  options:
+    gfm: true
+    html: true
+    linkify: true
+    table: true
+    strikethrough: true
+    subscript: false
+    superscript: false
+    heading_ids: false
+    breaks: false
+    xhtml: false
+    attributes: false
+    typographer: false
+    treat_indentation_as_code: true
+    escape_snippets_in_code_blocks: true
+
+_editables:
+  content:
+    format: p h2 h3 h4
+    bold: true
+    italic: true
+    strike: true
+    link: true
+    code: true
+    blockquote: true
+    bulletedlist: true
+    numberedlist: true
+    horizontalrule: true
+    image: true
+    table: true
+    snippet: true
+    undo: true
+    redo: true
+    removeformat: true
+    copyformatting: true
+
+collection_groups:
+  - heading: Content
+    collections: [pages, posts]
+  - heading: Site
+    collections: [settings]
+
+collections_config:
+  pages:
+    path: content
+    glob:
+      - "*.md"
+      - "!posts/**"
+    url: /[full_slug]/
+    name: Pages
+    icon: wysiwyg
+    description: The home page and standalone pages such as About.
+    _enabled_editors: [visual, content, data]
+    create:
+      path: "[relative_base_path]/{title|slugify}.[ext]"
+    disable_add_folder: true
+    schemas:
+      default:
+        path: .cloudcannon/schemas/page.md
+        name: Page
+        icon: wysiwyg
+        new_preview_url: /about/
+      home:
+        path: .cloudcannon/schemas/home.md
+        name: Home page
+        icon: home
+    add_options:
+      - name: Page
+        schema: default
+        icon: wysiwyg
+    _inputs:
+      $.title:
+        type: text
+        label: Title
+
+  posts:
+    path: content/posts
+    url: /posts/[full_slug]/
+    name: Posts
+    icon: event_available
+    description: Blog posts. Each post is a folder holding its text and images.
+    _enabled_editors: [visual, content, data]
+    create:
+      path: "[relative_base_path]/{title|slugify}/index.[ext]"
+    disable_add_folder: true
+    schemas:
+      default:
+        path: .cloudcannon/schemas/post.md
+        name: Post
+        icon: article
+      list:
+        path: .cloudcannon/schemas/posts-index.md
+        name: Posts list page
+        icon: list
+    add_options:
+      - name: Post
+        schema: default
+        icon: article
+        editor: content
+    sort_options:
+      - key: date
+        order: desc
+    _editables:
+      content:
+        format: p h2 h3 h4
+        bold: true
+        italic: true
+        strike: true
+        link: true
+        code: true
+        blockquote: true
+        bulletedlist: true
+        numberedlist: true
+        horizontalrule: true
+        image: true
+        table: true
+        snippet: true
+        undo: true
+        redo: true
+        removeformat: true
+        copyformatting: true
+        paths:
+          uploads: content/posts/[relative_base_path]
+          static: ""
+          uploads_use_relative_path: true
+    _inputs:
+      featureimage:
+        type: image
+        label: Featured image
+        comment: Leave empty to use the image named `featured.jpg` in the post's folder.
+        options:
+          paths:
+            uploads: content/posts/[relative_base_path]
+            static: ""
+            uploads_use_relative_path: true
+
+  settings:
+    path: config/_default
+    glob:
+      - params.yaml
+      - languages.en.yaml
+      - menus.en.yaml
+    name: Site settings
+    icon: settings
+    description: Theme options, site title and author, and menus.
+    disable_url: true
+    disable_add: true
+    disable_add_folder: true
+    disable_file_actions: true
+    _enabled_editors: [data]
+
+file_config:
+  - glob: config/_default/params.yaml
+    _inputs:
+      colorScheme:
+        type: select
+        label: Colour scheme
+        comment: Restyles the whole site. Previews at https://blowfish.page/docs/getting-started/#colour-schemes
+        options:
+          values: _select_data.color_schemes
+      defaultAppearance:
+        type: select
+        label: Default appearance
+        options:
+          values: [light, dark]
+      autoSwitchAppearance:
+        type: switch
+        label: Follow the visitor's light/dark setting
+      enableSearch:
+        type: switch
+        label: Search
+      enableCodeCopy:
+        type: switch
+        label: Copy button on code blocks
+      enableA11y:
+        type: switch
+        label: Accessibility panel
+      mainSections:
+        hidden: true
+      disableImageOptimization:
+        hidden: true
+      disableImageOptimizationMD:
+        hidden: true
+      header:
+        type: object
+        options:
+          preview:
+            icon: web_asset
+      header.layout:
+        type: select
+        label: Header style
+        options:
+          values: [basic, fixed, fixed-fill, fixed-gradient, fixed-fill-blur, floating]
+      footer:
+        type: object
+        options:
+          preview:
+            icon: call_to_action
+      footer.showMenu:
+        type: switch
+        label: Show footer menu
+      footer.showCopyright:
+        type: switch
+        label: Show copyright
+      footer.showThemeAttribution:
+        type: switch
+        label: Show "Powered by Blowfish"
+      footer.showAppearanceSwitcher:
+        type: switch
+        label: Show light/dark switch
+      footer.showScrollToTop:
+        type: switch
+        label: Show scroll-to-top button
+      homepage:
+        type: object
+        label: Home page
+        options:
+          preview:
+            icon: home
+      homepage.layout:
+        type: select
+        label: Home page layout
+        comment: "`landing` is the layout with in-place editing. The others show the page text and your author profile. Previews at https://blowfish.page/docs/homepage-layout/"
+        options:
+          values: [landing, page, profile, hero, card, background]
+      homepage.homepageImage:
+        type: image
+        label: Home page image
+        comment: Used by the hero, card and background layouts, and by landing when the page sets no image of its own.
+        options:
+          paths:
+            uploads: assets/img
+            static: assets
+      homepage.showRecent:
+        type: switch
+        label: Show recent posts
+      homepage.showRecentItems:
+        type: number
+        label: Number of recent posts
+      homepage.showMoreLink:
+        type: switch
+        label: Show "more posts" link
+      homepage.showMoreLinkDest:
+        type: text
+        label: '"More posts" link destination'
+      homepage.cardView:
+        type: switch
+        label: Show recent posts as cards
+      homepage.cardViewScreenWidth:
+        type: switch
+        label: Full-width cards
+      article:
+        type: object
+        label: Posts
+        options:
+          preview:
+            icon: article
+      article.showDate:
+        type: switch
+        label: Show date
+      article.showDateUpdated:
+        type: switch
+        label: Show date updated
+      article.showAuthor:
+        type: switch
+        label: Show author
+      article.showHero:
+        type: switch
+        label: Show featured image at the top
+      article.heroStyle:
+        type: select
+        label: Featured image style
+        options:
+          values: [basic, big, background, thumbAndBackground]
+      article.showBreadcrumbs:
+        type: switch
+        label: Show breadcrumbs
+      article.showDraftLabel:
+        type: switch
+        label: Label drafts
+      article.showHeadingAnchors:
+        type: switch
+        label: Show heading anchors
+      article.showPagination:
+        type: switch
+        label: Show previous/next links
+      article.showReadingTime:
+        type: switch
+        label: Show reading time
+      article.showTableOfContents:
+        type: switch
+        label: Show table of contents
+      article.showTaxonomies:
+        type: switch
+        label: Show tags and categories
+      article.showWordCount:
+        type: switch
+        label: Show word count
+      article.showRelatedContent:
+        type: switch
+        label: Show related posts
+      article.relatedContentLimit:
+        type: number
+        label: Number of related posts
+      article.sharingLinks:
+        type: multiselect
+        label: Sharing links
+        options:
+          values: [linkedin, twitter, bluesky, mastodon, reddit, pinterest, facebook, email, whatsapp, telegram, line]
+      list:
+        type: object
+        label: Post lists
+        options:
+          preview:
+            icon: list
+      list.showHero:
+        type: switch
+        label: Show hero image
+      list.showBreadcrumbs:
+        type: switch
+        label: Show breadcrumbs
+      list.showSummary:
+        type: switch
+        label: Show post summaries
+      list.showCards:
+        type: switch
+        label: Show thumbnails
+      list.groupByYear:
+        type: switch
+        label: Group by year
+      list.cardView:
+        type: switch
+        label: Card grid
+      taxonomy:
+        hidden: true
+      term:
+        hidden: true
+
+  - glob: config/_default/languages.en.yaml
+    _inputs:
+      title:
+        type: text
+        label: Site title
+      disabled:
+        hidden: true
+      locale:
+        hidden: true
+      label:
+        hidden: true
+      weight:
+        hidden: true
+      params:
+        type: object
+        label: Site
+        options:
+          preview:
+            icon: language
+      params.displayName:
+        hidden: true
+      params.isoCode:
+        hidden: true
+      params.rtl:
+        hidden: true
+      params.dateFormat:
+        type: select
+        label: Date format
+        options:
+          allow_create: true
+          values: ["2 January 2006", "January 2, 2006", "2 Jan 2006", "2006-01-02"]
+      params.logo:
+        type: image
+        label: Logo
+        comment: Shown in the header instead of the site title. Clear it to show the title.
+        options:
+          paths:
+            uploads: assets/img
+            static: assets
+      params.description:
+        type: textarea
+        label: Site description
+        comment: Used by search engines and when sharing links.
+      params.copyright:
+        type: text
+        label: Copyright notice
+        comment: Shown in the footer. Leave empty for "© year site title".
+      params.author:
+        type: object
+        label: Author
+        options:
+          preview:
+            icon: person
+      params.author.name:
+        type: text
+        label: Name
+      params.author.image:
+        type: image
+        label: Photo
+        options:
+          paths:
+            uploads: assets/img
+            static: assets
+      params.author.headline:
+        type: text
+        label: Headline
+      params.author.bio:
+        type: textarea
+        label: Bio
+      params.author.links:
+        type: array
+        label: Links
+        comment: Each link shows as an icon. Add one per profile.
+        options:
+          structures: _structures.author_links
+
+  - glob: config/_default/menus.en.yaml
+    _inputs:
+      main:
+        type: array
+        label: Header menu
+        options:
+          structures: _structures.menu_items
+      footer:
+        type: array
+        label: Footer menu
+        options:
+          structures: _structures.menu_items
+
+_select_data:
+  color_schemes:
+    [blowfish, avocado, fire, ocean, forest, princess, neon, bloody, terminal, marvel, noir, autumn, congo, slate, github, one-light, burufugu]
+  icons:
+    [circle-info, lightbulb, triangle-exclamation, check, star, heart, fire, bell, pencil, code, list, list-check, link, globe, envelope, github, bluesky, rss, search, tag, lock, shield, wand-magic-sparkles, download, comment]
+
+_structures:
+  menu_items:
+    style: modal
+    values:
+      - label: Page link
+        icon: description
+        value:
+          name:
+          pageRef:
+          weight:
+        preview:
+          text:
+            - key: name
+          subtext:
+            - key: pageRef
+        _inputs:
+          name: &menu_name
+            type: text
+            label: Label
+          weight: &menu_weight
+            type: number
+            label: Order
+            comment: Lower numbers come first.
+          pageRef:
+            type: text
+            label: Page
+            comment: A page's path inside the content folder, for example `posts` or `about`.
+      - label: External link
+        icon: link
+        value:
+          name:
+          url:
+          weight:
+        preview:
+          text:
+            - key: name
+          subtext:
+            - key: url
+        _inputs:
+          name: *menu_name
+          weight: *menu_weight
+          url:
+            type: url
+            label: URL
+
+  author_links:
+    style: modal
+    values:
+      - label: GitHub
+        icon: code
+        value:
+          github:
+        preview:
+          text:
+            - GitHub
+          subtext:
+            - key: github
+        _inputs:
+          github:
+            type: text
+            label: GitHub URL
+      - label: Bluesky
+        icon: cloud
+        value:
+          bluesky:
+        preview:
+          text:
+            - Bluesky
+          subtext:
+            - key: bluesky
+        _inputs:
+          bluesky:
+            type: text
+            label: Bluesky URL
+      - label: Mastodon
+        icon: forum
+        value:
+          mastodon:
+        preview:
+          text:
+            - Mastodon
+          subtext:
+            - key: mastodon
+        _inputs:
+          mastodon:
+            type: text
+            label: Mastodon URL
+      - label: LinkedIn
+        icon: work
+        value:
+          linkedin:
+        preview:
+          text:
+            - LinkedIn
+          subtext:
+            - key: linkedin
+        _inputs:
+          linkedin:
+            type: text
+            label: LinkedIn URL
+      - label: X / Twitter
+        icon: alternate_email
+        value:
+          x-twitter:
+        preview:
+          text:
+            - X / Twitter
+          subtext:
+            - key: x-twitter
+        _inputs:
+          x-twitter:
+            type: text
+            label: X / Twitter URL
+      - label: Instagram
+        icon: photo_camera
+        value:
+          instagram:
+        preview:
+          text:
+            - Instagram
+          subtext:
+            - key: instagram
+        _inputs:
+          instagram:
+            type: text
+            label: Instagram URL
+      - label: YouTube
+        icon: smart_display
+        value:
+          youtube:
+        preview:
+          text:
+            - YouTube
+          subtext:
+            - key: youtube
+        _inputs:
+          youtube:
+            type: text
+            label: YouTube URL
+      - label: Email
+        icon: mail
+        value:
+          email:
+        preview:
+          text:
+            - Email
+          subtext:
+            - key: email
+        _inputs:
+          email:
+            type: text
+            label: Email URL
+      - label: Website
+        icon: link
+        value:
+          link:
+        preview:
+          text:
+            - Website
+          subtext:
+            - key: link
+        _inputs:
+          link:
+            type: text
+            label: Website URL
+      - label: RSS
+        icon: rss_feed
+        value:
+          rss:
+        preview:
+          text:
+            - RSS
+          subtext:
+            - key: rss
+        _inputs:
+          rss:
+            type: text
+            label: RSS URL
+
+  content_blocks:
+    id_key: _name
+    style: modal
+    values:
+      - label: Stats
+        icon: monitoring
+        description: A row of big figures with labels.
+        value:
+          _name: blocks/stats
+          columns: "3"
+          items:
+            - value: ""
+              label: ""
+              text: ""
+        preview:
+          text:
+            - Stats
+          subtext:
+            - key: items.0.label
+        _inputs:
+          columns: &block_columns
+            type: select
+            label: Columns on wide screens
+            options:
+              values: ["3", "4"]
+          items:
+            type: array
+            label: Stats
+            options:
+              structures: _structures.stat_items
+      - label: Feature grid
+        icon: grid_view
+        description: Cards with an icon, title, text and optional link.
+        value:
+          _name: blocks/feature-grid
+          columns: "3"
+          items:
+            - icon: star
+              title: ""
+              text: ""
+              url: ""
+              label: ""
+        preview:
+          text:
+            - Feature grid
+          subtext:
+            - key: items.0.title
+        _inputs:
+          columns: *block_columns
+          items:
+            type: array
+            label: Cards
+            options:
+              structures: _structures.feature_items
+
+  stat_items:
+    values:
+      - label: Stat
+        icon: tag
+        value:
+          value: ""
+          label: ""
+          text: ""
+        preview:
+          text:
+            - key: value
+          subtext:
+            - key: label
+        _inputs:
+          value:
+            type: text
+            label: Figure
+            comment: The big number or word, for example `40+`.
+          label:
+            type: text
+            label: Label
+          text:
+            type: markdown
+            label: Description
+            options:
+              bold: true
+              italic: true
+              link: true
+
+  feature_items:
+    values:
+      - label: Card
+        icon: web_asset
+        value:
+          icon: star
+          title: ""
+          text: ""
+          url: ""
+          label: ""
+        preview:
+          text:
+            - key: title
+          subtext:
+            - key: text
+        _inputs:
+          icon:
+            type: select
+            label: Icon
+            options:
+              allow_create: true
+              values: _select_data.icons
+          title:
+            type: text
+            label: Title
+          text:
+            type: markdown
+            label: Text
+            options:
+              bold: true
+              italic: true
+              link: true
+          url:
+            type: text
+            label: Link
+            comment: Leave empty for a card without a link.
+          label:
+            type: text
+            label: Link text
+
+  hero_buttons:
+    values:
+      - label: Button
+        icon: ads_click
+        value:
+          label:
+          url:
+          style:
+        preview:
+          text:
+            - key: label
+          subtext:
+            - key: url
+        _inputs:
+          label:
+            type: text
+          url:
+            type: text
+            label: Link
+          style:
+            type: select
+            label: Style
+            options:
+              allow_empty: true
+              values:
+                - id: outline
+                  name: Outline
+              value_key: id
+              preview:
+                text:
+                  - key: name
+            comment: Leave empty for a solid button.
+
+_inputs:
+  _schema:
+    hidden: true
+  layout:
+    hidden: true
+  type:
+    hidden: true
+  aliases:
+    hidden: true
+  cascade:
+    hidden: true
+  build:
+    hidden: true
+  title:
+    type: text
+  description:
+    type: textarea
+    comment: A one-sentence summary for lists, search engines and link previews.
+  date:
+    type: datetime
+    instance_value: NOW
+  draft:
+    type: switch
+    comment: Drafts aren't published, so they can't open in the Visual Editor.
+  tags:
+    type: multiselect
+    options:
+      allow_create: true
+      values: []
+  categories:
+    type: multiselect
+    options:
+      allow_create: true
+      values: []
+  series:
+    type: multiselect
+    comment: Posts in the same series link to each other.
+    options:
+      allow_create: true
+      values: []
+  series_order:
+    type: number
+    label: Position in series
+  heroStyle:
+    type: select
+    label: Featured image style
+    comment: Leave empty to use the site setting.
+    options:
+      allow_empty: true
+      values: [basic, big, background, thumbAndBackground]
+  featureimagecaption:
+    type: text
+    label: Featured image caption
+  heroCaption:
+    type: text
+    label: Caption
+    comment: The small line above the heading.
+  heroLead:
+    type: textarea
+    label: Intro
+  heroButtons:
+    type: array
+    label: Buttons
+    options:
+      structures: _structures.hero_buttons
+  content_blocks:
+    type: array
+    label: Sections
+    options:
+      structures: _structures.content_blocks
+  _name:
+    hidden: true
+  heroImage:
+    type: image
+    label: Background image
+    options:
+      paths:
+        uploads: assets/img
+        static: assets
+  showDate:
+    type: switch
+  showReadingTime:
+    type: switch
+  showWordCount:
+    type: switch
+  showAuthor:
+    type: switch
+  showTableOfContents:
+    type: switch
+    label: Show table of contents
+
+_snippets:
+  alert:
+    template: hugo_paired_shortcode_named_args
+    inline: false
+    preview:
+      text: Alert
+      subtext:
+        - key: content
+      icon: info
+    definitions:
+      shortcode_name: alert
+      content_key: content
+      named_args:
+        - editor_key: icon
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: cardColor
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: iconColor
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: textColor
+          type: string
+          optional: true
+          remove_empty: true
+    _inputs:
+      icon:
+        type: select
+        comment: Leave empty for the default warning icon.
+        options:
+          allow_empty: true
+          allow_create: true
+          values: _select_data.icons
+      cardColor:
+        type: color
+        label: Background colour
+      iconColor:
+        type: color
+        label: Icon colour
+      textColor:
+        type: color
+        label: Text colour
+      content:
+        type: markdown
+        options:
+          bold: true
+          italic: true
+          link: true
+
+  button:
+    template: hugo_paired_shortcode_named_args
+    inline: false
+    preview:
+      text:
+        - key: label
+        - Button
+      icon: ads_click
+    definitions:
+      shortcode_name: button
+      content_key: label
+      named_args:
+        - editor_key: href
+          type: string
+        - editor_key: target
+          type: string
+          optional: true
+          remove_empty: true
+    _inputs:
+      href:
+        type: text
+        label: Link
+      target:
+        type: select
+        label: Open in
+        options:
+          allow_empty: true
+          values:
+            - id: _blank
+              name: New tab
+          value_key: id
+          preview:
+            text:
+              - key: name
+      label:
+        type: text
+
+  badge:
+    template: hugo_paired_shortcode_named_args
+    inline: true
+    preview:
+      text:
+        - key: text
+        - Badge
+      icon: label
+    definitions:
+      shortcode_name: badge
+      content_key: text
+      named_args: []
+    _inputs:
+      text:
+        type: text
+
+  lead:
+    template: hugo_paired_shortcode_named_args
+    inline: false
+    preview:
+      text: Lead paragraph
+      subtext:
+        - key: text
+      icon: format_size
+    definitions:
+      shortcode_name: lead
+      content_key: text
+      named_args: []
+    _inputs:
+      text:
+        type: textarea
+
+  figure:
+    template: hugo_shortcode_named_args
+    inline: false
+    view: gallery
+    preview:
+      text:
+        - key: caption
+        - Figure
+      gallery:
+        image:
+          - key: src
+      icon: image
+    definitions:
+      shortcode_name: figure
+      named_args:
+        - editor_key: src
+          type: string
+        - editor_key: alt
+          type: string
+        - editor_key: caption
+          type: string
+          optional: true
+          remove_empty: true
+        - editor_key: href
+          type: string
+          optional: true
+          remove_empty: true
+    _inputs:
+      src:
+        type: image
+        label: Image
+      alt:
+        type: text
+        label: Alt text
+      caption:
+        type: text
+      href:
+        type: text
+        label: Link
+
+  youtubeLite:
+    template: hugo_shortcode_named_args
+    inline: false
+    preview:
+      text:
+        - key: label
+        - YouTube video
+      subtext:
+        - key: id
+      icon: smart_display
+    definitions:
+      shortcode_name: youtubeLite
+      named_args:
+        - editor_key: id
+          type: string
+        - editor_key: label
+          type: string
+          optional: true
+          remove_empty: true
+    _inputs:
+      id:
+        type: text
+        label: Video ID
+        comment: The part after `v=` in the YouTube URL.
+      label:
+        type: text
+        label: Title
+

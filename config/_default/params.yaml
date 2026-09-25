@@ -1,0 +1,69 @@
+colorScheme: blowfish
+defaultAppearance: light
+autoSwitchAppearance: true
+
+enableSearch: true
+enableCodeCopy: true
+enableA11y: false
+
+mainSections:
+  - posts
+
+disableImageOptimization: false
+disableImageOptimizationMD: false
+
+header:
+  layout: fixed
+
+footer:
+  showMenu: true
+  showCopyright: true
+  showThemeAttribution: true
+  showAppearanceSwitcher: true
+  showScrollToTop: true
+
+homepage:
+  layout: landing
+  homepageImage: img/home-hero.jpg
+  showRecent: true
+  showRecentItems: 5
+  showMoreLink: true
+  showMoreLinkDest: /posts/
+  cardView: true
+  cardViewScreenWidth: false
+
+article:
+  showDate: true
+  showDateUpdated: false
+  showAuthor: true
+  showHero: true
+  heroStyle: big
+  showBreadcrumbs: false
+  showDraftLabel: true
+  showHeadingAnchors: true
+  showPagination: true
+  showReadingTime: true
+  showTableOfContents: true
+  showTaxonomies: true
+  showWordCount: true
+  showRelatedContent: true
+  relatedContentLimit: 3
+  sharingLinks:
+    - linkedin
+    - bluesky
+    - email
+
+list:
+  showHero: false
+  showBreadcrumbs: false
+  showSummary: true
+  showCards: true
+  groupByYear: true
+  cardView: false
+
+taxonomy:
+  showTermCount: true
+
+term:
+  showTableOfContents: false
+  groupByYear: false
