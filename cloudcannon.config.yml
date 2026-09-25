@@ -166,6 +166,7 @@ collections_config:
     name: Site settings
     icon: settings
     description: Theme options, site title and author, and menus.
+    include_developer_files: true
     disable_url: true
     disable_add: true
     disable_add_folder: true
